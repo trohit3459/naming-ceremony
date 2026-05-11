@@ -33,11 +33,17 @@ export function useVotes() {
 
   // Real-time listener for vote counts
   useEffect(() => {
+    // Safety fallback: if Firebase doesn't respond in 3 seconds, show the UI anyway
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
     const docRef = doc(db, COLLECTION_NAME, VOTE_DOC_ID);
 
     const unsubscribe = onSnapshot(
       docRef,
       (snapshot) => {
+        clearTimeout(timer);
         if (snapshot.exists()) {
           const data = snapshot.data();
           setVotes({
@@ -48,13 +54,18 @@ export function useVotes() {
         setLoading(false);
       },
       (err) => {
+        clearTimeout(timer);
         console.error("Error listening to votes:", err);
-        setError("Failed to load votes. Please refresh the page.");
+        // We don't set an error here anymore because we want the UI to show up 
+        // as a fallback even if voting is temporarily unavailable
         setLoading(false);
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
   }, []);
 
   // Submit vote using Firestore transaction for atomicity

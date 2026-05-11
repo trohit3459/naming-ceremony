@@ -30,38 +30,48 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen flex flex-col items-center w-full">
       {/* Background floating particles */}
       <FloatingParticles />
 
       {/* Main content */}
-      <main className="relative z-10 max-w-3xl mx-auto pb-8">
+      <main className="relative z-10 w-full max-w-3xl px-4 pb-12 flex flex-col items-center">
         {/* Hero / Invitation Header */}
-        <HeroSection />
+        <div className="w-full">
+          <HeroSection />
+        </div>
 
         {/* Countdown Timer */}
-        <CountdownTimer />
+        <div className="w-full">
+          <CountdownTimer />
+        </div>
 
         {/* Divider */}
-        <hr className="section-divider max-w-xs mx-auto" />
+        <hr className="section-divider w-32 mx-auto" />
 
         {/* Event Details */}
-        <EventDetails />
+        <div className="w-full">
+          <EventDetails />
+        </div>
 
         {/* Divider */}
-        <hr className="section-divider max-w-xs mx-auto" />
+        <hr className="section-divider w-32 mx-auto" />
 
         {/* Name Voting Poll */}
-        <PollSection
-          votes={votes}
-          hasVoted={hasVoted}
-          submitting={submitting}
-          error={error}
-          onSubmit={submitVote}
-        />
+        <div className="w-full">
+          <PollSection
+            votes={votes}
+            hasVoted={hasVoted}
+            submitting={submitting}
+            error={error}
+            onSubmit={submitVote}
+          />
+        </div>
 
         {/* Footer */}
-        <Footer />
+        <div className="w-full">
+          <Footer />
+        </div>
       </main>
 
       {/* Confetti overlay on successful vote */}

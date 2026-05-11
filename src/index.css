@@ -27,14 +27,14 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
 }
 
 body {
   font-family: var(--font-body);
   background: linear-gradient(135deg, #fce4ec 0%, #e3f2fd 50%, #ede7f6 100%);
-  min-height: 100vh;
   overflow-x: hidden;
   color: #37474f;
 }
