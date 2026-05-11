@@ -30,12 +30,12 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center w-full">
+    <div className="relative min-h-screen">
       {/* Background floating particles */}
       <FloatingParticles />
 
       {/* Main content */}
-      <main className="relative z-10 w-full max-w-3xl px-4 pb-12 flex flex-col items-center">
+      <main className="relative z-10 w-full max-w-2xl px-6 py-12 flex flex-col items-center">
         {/* Hero / Invitation Header */}
         <div className="w-full">
           <HeroSection />
@@ -55,7 +55,7 @@ export default function App() {
         </div>
 
         {/* Divider */}
-        <hr className="section-divider w-32 mx-auto" />
+        <hr className="section-divider w-full max-w-xs mx-auto opacity-50" />
 
         {/* Name Voting Poll */}
         <div className="w-full">

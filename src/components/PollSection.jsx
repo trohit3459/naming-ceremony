@@ -47,16 +47,16 @@ export default function PollSection({
     >
       <div className="max-w-2xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <motion.h2
-            className="font-[var(--font-display)] text-3xl md:text-4xl font-semibold gradient-text"
+            className="font-[var(--font-display)] text-3xl md:text-5xl font-semibold gradient-text"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
           >
             Help Us Name Our Twins!
           </motion.h2>
-          <p className="text-gray-500 mt-2 text-base md:text-lg">
+          <p className="text-gray-500 mt-3 text-lg md:text-xl">
             {hasVoted
               ? "🎉 Thank you for voting! Here are the live results:"
               : "Pick one name for each baby and submit your vote"}
@@ -64,19 +64,14 @@ export default function PollSection({
         </div>
 
         {/* Girl Names Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">👧🏻</span>
-            <h3 className="font-[var(--font-display)] text-xl md:text-2xl font-semibold text-pink-600">
+        <div className="mb-12">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-3xl">👧🏻</span>
+            <h3 className="font-[var(--font-display)] text-2xl md:text-3xl font-semibold text-pink-600">
               Baby Girl Names
             </h3>
-            {(hasVoted || voteSuccess) && (
-              <span className="ml-auto text-sm text-gray-500 font-medium">
-                {totalGirlVotes} total votes
-              </span>
-            )}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
             {GIRL_NAMES.map((item) => (
               <NameCard
                 key={item.id}
@@ -94,19 +89,14 @@ export default function PollSection({
         </div>
 
         {/* Boy Names Section */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">👦🏻</span>
-            <h3 className="font-[var(--font-display)] text-xl md:text-2xl font-semibold text-blue-600">
+        <div className="mb-12">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-3xl">👦🏻</span>
+            <h3 className="font-[var(--font-display)] text-2xl md:text-3xl font-semibold text-blue-600">
               Baby Boy Names
             </h3>
-            {(hasVoted || voteSuccess) && (
-              <span className="ml-auto text-sm text-gray-500 font-medium">
-                {totalBoyVotes} total votes
-              </span>
-            )}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
             {BOY_NAMES.map((item) => (
               <NameCard
                 key={item.id}
