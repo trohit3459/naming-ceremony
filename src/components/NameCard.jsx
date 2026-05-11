@@ -1,9 +1,11 @@
+import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function NameCard({
+const NameCard = memo(function NameCard({
   name,
   emoji,
   selected,
+  isDimmed,
   onClick,
   type,
   voteCount = 0,
@@ -23,7 +25,9 @@ export default function NameCard({
           ? "bg-white/40 cursor-default" 
           : selected
             ? isGirl ? "bg-pink-50 ring-2 ring-pink-400" : "bg-blue-50 ring-2 ring-blue-400"
-            : "bg-white/80 hover:bg-white hover:shadow-lg"
+            : isDimmed 
+              ? "bg-white/40 opacity-60 hover:opacity-100 grayscale-[0.2]" 
+              : "bg-white/80 hover:bg-white hover:shadow-lg"
         }
         shadow-sm border border-white/50
       `}
@@ -82,4 +86,6 @@ export default function NameCard({
       </AnimatePresence>
     </motion.button>
   );
-}
+});
+
+export default NameCard;

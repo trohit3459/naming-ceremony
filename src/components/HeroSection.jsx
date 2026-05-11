@@ -9,19 +9,23 @@ export default function HeroSection() {
       transition={{ duration: 1 }}
     >
       {/* Decorative Baby Icons */}
-      <div className="flex gap-6 mb-8 relative">
+      <div className="flex justify-center items-center mb-10 relative h-28">
         <motion.div 
-          className="w-20 h-20 md:w-24 md:h-24 premium-card flex items-center justify-center text-4xl shadow-lg border-pink-100"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute z-10 w-24 h-24 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-4xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-pink-100/50"
+          style={{ x: -20 }}
+          animate={{ y: [0, -5, 0], rotate: [-2, 2, -2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
           👧🏻
         </motion.div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl animate-pulse">✨</div>
+        
+        <div className="absolute z-30 text-2xl animate-pulse text-gold">✨</div>
+        
         <motion.div 
-          className="w-20 h-20 md:w-24 md:h-24 premium-card flex items-center justify-center text-4xl shadow-lg border-blue-100"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          className="absolute z-20 w-24 h-24 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-4xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-blue-100/50"
+          style={{ x: 20 }}
+          animate={{ y: [0, 5, 0], rotate: [2, -2, 2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         >
           👦🏻
         </motion.div>

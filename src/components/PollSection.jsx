@@ -14,9 +14,10 @@ export default function PollSection({ votes, hasVoted, submitting, error, onSubm
 
   return (
     <motion.section 
-      className="w-full max-w-2xl mx-auto px-6 py-12"
+      className="w-full max-w-2xl mx-auto px-4 md:px-6 py-12"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
     >
       {/* Header */}
       <div className="text-center mb-12">
@@ -34,13 +35,14 @@ export default function PollSection({ votes, hasVoted, submitting, error, onSubm
           <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center text-xl">👧🏻</div>
           <h3 className="text-2xl font-bold text-gray-800">For Our Baby Girl</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {GIRL_NAMES.map((item) => (
             <NameCard
               key={item.id}
               {...item}
               type="girl"
               selected={selectedGirl === item.id}
+              isDimmed={selectedGirl !== null && selectedGirl !== item.id}
               onClick={() => !hasVoted && setSelectedGirl(item.id)}
               voteCount={votes.girl?.[item.id] || 0}
               totalVotes={totalGirlVotes}
@@ -56,13 +58,14 @@ export default function PollSection({ votes, hasVoted, submitting, error, onSubm
           <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-xl">👦🏻</div>
           <h3 className="text-2xl font-bold text-gray-800">For Our Baby Boy</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           {BOY_NAMES.map((item) => (
             <NameCard
               key={item.id}
               {...item}
               type="boy"
               selected={selectedBoy === item.id}
+              isDimmed={selectedBoy !== null && selectedBoy !== item.id}
               onClick={() => !hasVoted && setSelectedBoy(item.id)}
               voteCount={votes.boy?.[item.id] || 0}
               totalVotes={totalBoyVotes}
@@ -83,11 +86,11 @@ export default function PollSection({ votes, hasVoted, submitting, error, onSubm
           >
             {error && (
               <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="text-red-500 mb-6 p-4 bg-red-50 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-pink-600 mb-6 text-sm font-medium flex items-center justify-center gap-2"
               >
-                <span>⚠️</span> {error}
+                <span>✨</span> {error}
               </motion.div>
             )}
             
