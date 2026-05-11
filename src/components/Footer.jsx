@@ -1,32 +1,33 @@
 import { motion } from "framer-motion";
 
-/**
- * Footer section with a warm closing message.
- */
 export default function Footer() {
   return (
-    <motion.footer
-      className="text-center py-10 px-4"
+    <motion.footer 
+      className="w-full max-w-xl mx-auto px-6 py-20 text-center border-t border-pink-50"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
     >
-      <div className="max-w-md mx-auto">
-        <p className="font-[var(--font-script)] text-2xl md:text-3xl text-gray-600 mb-3">
-          With Love &amp; Blessings
+      <div className="mb-8">
+        <h3 className="font-[var(--font-script)] text-4xl text-rose mb-4 animate-pulse">
+          With Love
+        </h3>
+        <p className="text-gray-400 font-medium tracking-widest text-xs uppercase">
+          The Proud Parents
         </p>
-        <p className="text-gray-400 text-sm">
-          We can&apos;t wait to celebrate this special day with you! 💕
-        </p>
-        <div className="flex items-center justify-center gap-3 mt-6">
-          <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-pink-200"></span>
-          <span className="text-lg">👨‍👩‍👧‍👦</span>
-          <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-blue-200"></span>
-        </div>
-        <p className="text-xs text-gray-300 mt-6">
-          Made with ❤️ for our little angels
-        </p>
+      </div>
+
+      <div className="flex justify-center gap-4 mb-10">
+        <span className="w-2 h-2 rounded-full bg-pink-100"></span>
+        <span className="w-2 h-2 rounded-full bg-blue-100"></span>
+        <span className="w-2 h-2 rounded-full bg-pink-100"></span>
+      </div>
+
+      <p className="text-gray-400 text-sm max-w-xs mx-auto leading-relaxed">
+        We are so grateful for your presence in our lives. Thank you for being part of this special milestone.
+      </p>
+
+      <div className="mt-12 text-[10px] text-gray-300 font-bold tracking-[0.3em] uppercase">
+        © 2026 • Twin Naming Ceremony
       </div>
     </motion.footer>
   );
