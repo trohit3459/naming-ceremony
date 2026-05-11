@@ -14,7 +14,7 @@ const COLLECTION_NAME = "votes";
 
 /**
  * Custom hook for managing poll votes with Firebase Firestore.
- * Handles real-time updates, vote submission, and duplicate prevention.
+ * Upgraded with robust error handling and submission locking.
  */
 export function useVotes() {
   const [votes, setVotes] = useState({ boy: {}, girl: {} });
@@ -23,21 +23,13 @@ export function useVotes() {
   const [hasVoted, setHasVoted] = useState(false);
   const [error, setError] = useState(null);
 
-  // Check if user already voted (localStorage)
   useEffect(() => {
     const voted = localStorage.getItem(VOTE_STORAGE_KEY);
-    if (voted) {
-      setHasVoted(true);
-    }
+    if (voted) setHasVoted(true);
   }, []);
 
-  // Real-time listener for vote counts
   useEffect(() => {
-    // Safety fallback: if Firebase doesn't respond in 3 seconds, show the UI anyway
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-
+    const timer = setTimeout(() => setLoading(false), 3000);
     const docRef = doc(db, COLLECTION_NAME, VOTE_DOC_ID);
 
     const unsubscribe = onSnapshot(
@@ -55,9 +47,7 @@ export function useVotes() {
       },
       (err) => {
         clearTimeout(timer);
-        console.error("Error listening to votes:", err);
-        // We don't set an error here anymore because we want the UI to show up 
-        // as a fallback even if voting is temporarily unavailable
+        console.error("Firebase Sync Error:", err);
         setLoading(false);
       }
     );
@@ -68,13 +58,9 @@ export function useVotes() {
     };
   }, []);
 
-  // Submit vote using Firestore transaction for atomicity
   const submitVote = useCallback(
     async (boyNameId, girlNameId) => {
-      if (hasVoted) {
-        setError("You have already voted!");
-        return false;
-      }
+      if (hasVoted || submitting) return false;
 
       setSubmitting(true);
       setError(null);
@@ -84,49 +70,33 @@ export function useVotes() {
 
         await runTransaction(db, async (transaction) => {
           const docSnap = await transaction.get(docRef);
+          const currentData = docSnap.exists() ? docSnap.data() : { boy: {}, girl: {} };
+          
+          const newBoyVotes = { ...currentData.boy };
+          const newGirlVotes = { ...currentData.girl };
+          
+          newBoyVotes[boyNameId] = (newBoyVotes[boyNameId] || 0) + 1;
+          newGirlVotes[girlNameId] = (newGirlVotes[girlNameId] || 0) + 1;
 
-          if (!docSnap.exists()) {
-            // Initialize the document if it doesn't exist
-            const initialData = {
-              boy: { [boyNameId]: 1 },
-              girl: { [girlNameId]: 1 },
-            };
-            transaction.set(docRef, initialData);
-          } else {
-            const data = docSnap.data();
-            const boyVotes = data.boy || {};
-            const girlVotes = data.girl || {};
-
-            boyVotes[boyNameId] = (boyVotes[boyNameId] || 0) + 1;
-            girlVotes[girlNameId] = (girlVotes[girlNameId] || 0) + 1;
-
-            transaction.update(docRef, {
-              boy: boyVotes,
-              girl: girlVotes,
-            });
-          }
+          transaction.set(docRef, {
+            boy: newBoyVotes,
+            girl: newGirlVotes,
+          }, { merge: true });
         });
 
         localStorage.setItem(VOTE_STORAGE_KEY, "true");
         setHasVoted(true);
-        setSubmitting(false);
         return true;
       } catch (err) {
-        console.error("Error submitting vote:", err);
-        setError("Failed to submit vote. Please try again.");
-        setSubmitting(false);
+        console.error("Submission Error:", err);
+        setError("Network error. Please check your connection.");
         return false;
+      } finally {
+        setSubmitting(false);
       }
     },
-    [hasVoted]
+    [hasVoted, submitting]
   );
 
-  return {
-    votes,
-    loading,
-    submitting,
-    hasVoted,
-    error,
-    submitVote,
-  };
+  return { votes, loading, submitting, hasVoted, error, submitVote };
 }

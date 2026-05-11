@@ -65,34 +65,41 @@ body {
 
 /* ===== Typography Utilities ===== */
 .heading-gradient {
-  background: linear-gradient(135deg, #FF69B4, #9B59B6, #3498DB);
+  background: linear-gradient(135deg, #FF69B4 10%, #9B59B6 50%, #3498DB 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.02));
 }
 
 .gold-glow {
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
 /* ===== Button Styles ===== */
 .btn-primary {
   background: linear-gradient(135deg, #FF69B4, #8E44AD);
   color: white;
-  padding: 18px 40px;
+  padding: 18px 44px;
   border-radius: 100px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
-  transition: all 0.3s ease;
-  border: none;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  box-shadow: 
+    0 10px 30px rgba(255, 105, 180, 0.35),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.85rem;
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: scale(1.05);
-  box-shadow: 0 15px 35px rgba(255, 105, 180, 0.5);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(255, 105, 180, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:disabled {

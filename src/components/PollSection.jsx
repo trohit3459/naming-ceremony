@@ -76,37 +76,66 @@ export default function PollSection({ votes, hasVoted, submitting, error, onSubm
       <AnimatePresence>
         {!hasVoted ? (
           <motion.div 
-            className="text-center mt-12 p-8 premium-card border-gold-light/30"
+            className="text-center mt-12 p-10 premium-card border-gold-light/20 bg-gradient-to-b from-white to-gray-50/30"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
           >
-            {error && <p className="text-red-500 mb-4 text-sm font-medium">⚠️ {error}</p>}
-            <p className="text-sm text-gray-400 mb-6 font-medium uppercase tracking-widest">
-              Final Choice
-            </p>
-            <button
-              className="btn-primary w-full max-w-sm disabled:opacity-50 disabled:grayscale transition-all"
-              onClick={() => onSubmit(selectedBoy, selectedGirl)}
-              disabled={!canSubmit}
-            >
-              {submitting ? "Casting Your Vote..." : "Submit My Choices 🗳️"}
-            </button>
-            {!canSubmit && (
-              <p className="text-xs text-gray-400 mt-4 italic">
-                Please pick one name for the girl and one for the boy to submit
-              </p>
+            {error && (
+              <motion.div 
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-red-500 mb-6 p-4 bg-red-50 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2"
+              >
+                <span>⚠️</span> {error}
+              </motion.div>
             )}
+            
+            <p className="text-[10px] text-gray-400 mb-8 font-bold uppercase tracking-[0.3em]">
+              Final Step
+            </p>
+
+            <div className="flex flex-col items-center gap-4">
+              <button
+                className="btn-primary w-full max-w-sm flex items-center justify-center gap-3 active:scale-95 disabled:grayscale"
+                onClick={() => onSubmit(selectedBoy, selectedGirl)}
+                disabled={!canSubmit}
+              >
+                {submitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Recording Blessings...
+                  </>
+                ) : (
+                  "Cast Your Vote 🗳️"
+                )}
+              </button>
+              
+              {!selectedGirl || !selectedBoy ? (
+                <p className="text-[11px] text-gray-400 font-medium animate-pulse">
+                  * Please select one name for both the girl and boy
+                </p>
+              ) : null}
+            </div>
           </motion.div>
         ) : (
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-center mt-8 p-10 premium-card bg-green-50/50 border-green-200"
+            className="text-center mt-8 p-12 premium-card bg-green-50/40 border-green-200/50"
           >
-            <div className="text-5xl mb-4">✨✅✨</div>
-            <h3 className="text-2xl font-bold text-green-700 mb-2">Thank You for Voting!</h3>
-            <p className="text-green-600 font-medium">Your love and input mean the world to us.</p>
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner">
+              ✨
+            </div>
+            <h3 className="text-3xl font-bold text-green-800 mb-3 font-[var(--font-display)]">
+              Blessings Received
+            </h3>
+            <p className="text-green-600 font-medium max-w-xs mx-auto">
+              Your choices have been recorded. Thank you for being part of our story.
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

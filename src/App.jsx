@@ -8,6 +8,7 @@ import PollSection from "./components/PollSection";
 import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
 import FloatingParticles from "./components/FloatingParticles";
+import Confetti from "./components/Confetti";
 
 export default function App() {
   const { votes, loading, submitting, hasVoted, error, submitVote } = useVotes();
@@ -16,7 +17,7 @@ export default function App() {
   useEffect(() => {
     if (hasVoted && !loading) {
       setShowConfetti(true);
-      const timer = setTimeout(() => setShowConfetti(false), 6000);
+      const timer = setTimeout(() => setShowConfetti(false), 8000);
       return () => clearTimeout(timer);
     }
   }, [hasVoted, loading]);
@@ -24,7 +25,7 @@ export default function App() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="relative min-h-screen w-full flex justify-center">
+    <div className="relative min-h-[100dvh] w-full flex justify-center bg-white selection:bg-pink-100">
       {/* Background Ambience */}
       <FloatingParticles />
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
@@ -40,17 +41,21 @@ export default function App() {
         >
           <HeroSection />
           
-          <div className="w-full space-y-12 pb-20">
+          <div className="w-full space-y-16 pb-20">
             <CountdownTimer />
             
-            <hr className="w-24 h-px bg-pink-100 mx-auto border-none" />
+            <hr className="w-32 h-[2px] bg-gradient-to-r from-transparent via-pink-100 to-transparent mx-auto border-none" />
             
             <EventDetails />
             
             <div className="relative">
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.05]">
-                <div className="text-[20rem] font-bold select-none">TWINS</div>
+              {/* Subtle Watermark Decoration */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.03] overflow-hidden">
+                <span className="text-[25vw] font-black tracking-tighter uppercase leading-none transform -rotate-12">
+                  Twins
+                </span>
               </div>
+
               <PollSection
                 votes={votes}
                 hasVoted={hasVoted}
@@ -66,60 +71,8 @@ export default function App() {
       </main>
 
       {/* Confetti Overlay */}
-      <AnimatePresence>
-        {showConfetti && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 pointer-events-none z-[100]"
-          >
-            <ConfettiCelebration />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showConfetti && <Confetti duration={8000} />}
     </div>
   );
 }
 
-function ConfettiCelebration() {
-  const pieces = Array.from({ length: 80 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    delay: Math.random() * 3,
-    duration: 3 + Math.random() * 4,
-    color: ["#FFB6C1", "#B0C4DE", "#FFD700", "#F08080", "#87CEFA"][i % 5],
-    size: 5 + Math.random() * 10,
-    rotate: Math.random() * 360,
-  }));
-
-  return (
-    <div className="relative w-full h-full">
-      {pieces.map((p) => (
-        <motion.div
-          key={p.id}
-          initial={{ y: -20, rotate: 0, opacity: 1 }}
-          animate={{ 
-            y: "110vh", 
-            rotate: p.rotate + 720,
-            opacity: [1, 1, 0]
-          }}
-          transition={{ 
-            duration: p.duration, 
-            delay: p.delay,
-            ease: "linear",
-            repeat: Infinity
-          }}
-          style={{
-            position: "absolute",
-            left: p.left,
-            width: p.size,
-            height: p.size,
-            backgroundColor: p.color,
-            borderRadius: p.id % 3 === 0 ? "50%" : "2px",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
