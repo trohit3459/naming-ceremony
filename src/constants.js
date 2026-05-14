@@ -29,7 +29,7 @@ export const EVENT_DETAILS = {
 
 export const RESULTS = {
   girl: { name: "Bhavya", emoji: "✨" },
-  boy: { name: "Bhargav", emoji: "⭐" }
+  boy: { name: "Bhavik", emoji: "⭐" }
 };
 
 export const MEDIA = {
