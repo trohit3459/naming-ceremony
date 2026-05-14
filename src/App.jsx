@@ -1,28 +1,22 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useVotes } from "./hooks/useVotes";
 import HeroSection from "./components/HeroSection";
-import CountdownTimer from "./components/CountdownTimer";
 import EventDetails from "./components/EventDetails";
-import PollSection from "./components/PollSection";
+import ResultsSection from "./components/ResultsSection";
+import MediaSection from "./components/MediaSection";
+import UpcomingEventsSection from "./components/UpcomingEventsSection";
 import Footer from "./components/Footer";
-import LoadingSpinner from "./components/LoadingSpinner";
 import FloatingParticles from "./components/FloatingParticles";
 import Confetti from "./components/Confetti";
 
 export default function App() {
-  const { votes, loading, submitting, hasVoted, error, submitVote } = useVotes();
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
-    if (hasVoted && !loading) {
-      setShowConfetti(true);
-      const timer = setTimeout(() => setShowConfetti(false), 8000);
-      return () => clearTimeout(timer);
-    }
-  }, [hasVoted, loading]);
-
-  if (loading) return <LoadingSpinner />;
+    // Show confetti on first load to celebrate the results
+    const timer = setTimeout(() => setShowConfetti(false), 8000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative min-h-[100dvh] w-full flex justify-center bg-white selection:bg-pink-100">
@@ -31,7 +25,7 @@ export default function App() {
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
 
       {/* Main Container */}
-      <main className="relative z-10 w-full max-w-3xl flex flex-col items-center overflow-x-hidden md:overflow-x-visible">
+      <main className="relative z-10 w-full max-w-4xl flex flex-col items-center overflow-x-hidden md:overflow-x-visible">
         {/* Entry Animation Group */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -41,27 +35,25 @@ export default function App() {
         >
           <HeroSection />
           
-          <div className="w-full my-8">
-            <CountdownTimer />
-          </div>
-          
           <hr className="w-32 h-[2px] bg-gradient-to-r from-transparent via-pink-100 to-transparent mx-auto border-none my-8" />
           
           <div className="w-full my-8">
+            <ResultsSection />
+          </div>
+
+          <div className="w-full my-8">
+            <MediaSection />
+          </div>
+          
+          <div className="w-full my-8 max-w-3xl mx-auto">
             <EventDetails />
           </div>
           
-          <div className="relative w-full px-2 sm:px-0 my-12">
-            <PollSection
-              votes={votes}
-              hasVoted={hasVoted}
-              submitting={submitting}
-              error={error}
-              onSubmit={submitVote}
-            />
+          <div className="w-full my-8 max-w-3xl mx-auto">
+            <UpcomingEventsSection />
           </div>
           
-          <div className="w-full mt-12">
+          <div className="w-full mt-12 max-w-3xl mx-auto">
             <Footer />
           </div>
         </motion.div>
